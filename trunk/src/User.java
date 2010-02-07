@@ -52,7 +52,7 @@ public class User {
 
 	}
 
-    static String config = "userConfig.txt";
+    static String config = Sittings.userConfig;
     public boolean hasMoney() {
     	return budget > cost;
     }

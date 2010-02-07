@@ -40,7 +40,7 @@ public class Data implements Comparable<Data>{
     private double[] replicaPriceRandom = new double[replicaNum];
     private double[] replicaPriceLinear = new double[replicaNum];
     
-    final static String DataConfig = "dataConfig.txt";
+    final static String DataConfig = Sittings.dataConfig;
     
     Data(Server s,int dataSize) {
     	src = s;

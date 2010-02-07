@@ -46,7 +46,7 @@ public class Update extends Event{
     static void getUpdate(Data[] d, List<Event> u) {
     	try {
 	        java.io.BufferedReader reader = new  java.io.BufferedReader (
-	        new java.io.InputStreamReader (new java.io.FileInputStream (path)));
+	        new java.io.InputStreamReader (new java.io.FileInputStream (Sittings.update)));
 	        String line = reader.readLine ();
 	        while (line != null) {
                 java.util.StringTokenizer st = new java.util.StringTokenizer (line, "|");

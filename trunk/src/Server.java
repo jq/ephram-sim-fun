@@ -76,6 +76,8 @@ public class Server {
 	}
 	
 	static String sconfig = "serverConfig.txt";
+
+        
 	static ArrayList<Server> getServerFromConfig(String sconfig) {
 		
 		ArrayList<Server> s = new ArrayList<Server>();
