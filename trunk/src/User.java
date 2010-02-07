@@ -44,10 +44,10 @@ public class User {
     }
 
     String getString() {
-        return "UserID:" + Integer.toString(userID) + " successQ:" + Integer.toString(successQuery) +
-                " totalQuery:" + Integer.toString(totalQuery) +
-                " rate:" + Float.toString((float) successQuery / (float) totalQuery) +
-                " cost:" + Double.toString(cost) + "\n";
+        return "UserID:" + Integer.toString(userID) + " successQ:" + Integer.toString(successQuery)
+                + " totalQuery:" + Integer.toString(totalQuery)
+                + " rate:" + Float.toString((float) successQuery / (float) totalQuery)
+                + " cost:" + Double.toString(cost) + "\n";
 
     }
     static String config = Sittings.userConfig;
@@ -134,7 +134,7 @@ public class User {
 
         Vector<Integer> usrid = new Vector<Integer>();
         Vector<Integer> usrlist = new Vector<Integer>();
-        Random ran = new Random();
+        Random ran = Sittings.randomSeed;
 
         int usrIndex = -1, usrPos = -1;
         int usrID, queryNum;

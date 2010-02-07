@@ -16,7 +16,7 @@ class UserProfileGenerator {
 
     	String outFile = userProfile;
     	
-    	Random ran = new Random();                                                                                          
+    	Random ran = Sittings.randomSeed;
                                                                                                                                             
         int userId, userIdMin, userIdMax;
         int maxQos, maxQosMin, maxQosMax;

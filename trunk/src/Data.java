@@ -24,7 +24,7 @@ public class Data implements Comparable<Data>{
 	static final int dataObjectSize = 50;
 	
 	//src data price
-	double priceRandom = Math.random();
+	double priceRandom = Sittings.randomSeed.nextDouble();
 	double priceLinear = 1.0;
 	
     Server src;
@@ -48,7 +48,7 @@ public class Data implements Comparable<Data>{
     	
     	for(int i=0;i<replicaNum;i++)
     	{
-    		replicaPriceRandom[i] = Math.random();
+    		replicaPriceRandom[i] = Sittings.randomSeed.nextDouble();
     	}
     	
     	size = dataSize;
@@ -113,7 +113,7 @@ public class Data implements Comparable<Data>{
         Data[] d = new Data[dataNum];
         int serverSize = s.length;
         
-        Random ran = new Random(); 
+        Random ran = Sittings.randomSeed;
         
         String line;
         StringTokenizer tokens;

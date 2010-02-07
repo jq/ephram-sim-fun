@@ -27,5 +27,5 @@ public class Sittings {
     public static int cacheSize = 50;
 
     //random seed
-    java.util.Random randomSeed=new Random(0);
+    public static java.util.Random randomSeed=new Random(1);
 }
