@@ -1,4 +1,7 @@
 
+import java.util.Random;
+
+
 /**
  * collect all the sittings of input file locations and names here.
  * @author hillboy
@@ -20,4 +23,9 @@ public class Sittings {
     public static String outputFolder = "result/";
     public static String output = outputFolder + "output.txt";
     public static String queryText = outputFolder + "query.txt";
+    //run time sittings
+    public static int cacheSize = 50;
+
+    //random seed
+    java.util.Random randomSeed=new Random(0);
 }
