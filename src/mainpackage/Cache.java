@@ -10,9 +10,9 @@ import java.util.ListIterator;
 
 public class Cache {
 
-    static final int FIFO_ALL = 0;
-    static final int THRESHOLD_ACCESS_TIME = 3000;
-    int cachesize;
+    static final public int FIFO_ALL = 0;
+    static final public int THRESHOLD_ACCESS_TIME = 3000;
+    public int cachesize;
     double profit;
     static int cacheAccessTime = 1000;
     int totalSuccess;
@@ -23,7 +23,7 @@ public class Cache {
     // cached data
 //    LinkedList<Data> fresh = new LinkedList<Data>();
 //    LinkedList<Data> stale = new LinkedList<Data>();
-    LinkedList<Data> cacheItems = new LinkedList<Data>();
+    public LinkedList<Data> cacheItems = new LinkedList<Data>();
     Writer o;
     static int inCacheFreshCount = 0;
     static int inCacheStaleCount = 0;
