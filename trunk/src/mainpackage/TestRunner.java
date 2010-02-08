@@ -1,67 +1,27 @@
+package mainpackage;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
 
-public class sim {
-    //get file full path of a directory
+import java.util.*;
+import java.io.*;
 
-    static String[] getListFiles(String path) {
-        java.io.File start = new java.io.File(path);
-        String list[] = start.list();
-        int total = (list == null) ? 0 : list.length;
-        for (int i = 0; i < total; i++) {
-            String fullpath = path;
-            if (!fullpath.endsWith(java.io.File.separator)) {
-                fullpath += java.io.File.separator;
-            }
-            fullpath += list[i];
-            list[i] = fullpath;
-        }
-        return list;
+/**
+ * to start up experiments
+ * @author hillboy
+ */
+public class TestRunner {
 
-    }
-
-    @SuppressWarnings("unchecked")
-// -c cache size -a access file -u user config file
-    public static void main(String[] args) throws IOException {
-        int cacheSize = 50;
+    public static void testCache(Cache c) throws Exception {
         String asFile = Sittings.asFile;
         String uFile = Sittings.userProfile;
         String oFile = Sittings.output;
-        int t = Cache.FIFO_ALL;
-        for (int i = 0; i < args.length; ++i) {
-            String s = args[i];
-            if (s.compareTo("-c") == 0) {
-                ++i;
-                cacheSize = Integer.parseInt(args[i]);
-            } else if (s.compareTo("-u") == 0) {
-                ++i;
-                uFile = args[i];
-            } else if (s.compareTo("-a") == 0) {
-                ++i;
-                asFile = args[i];
-            } else if (s.compareTo("-o") == 0) {
-                ++i;
-                oFile = args[i];
-            } else if (s.compareTo("-t") == 0) {
-                ++i;
-                t = Integer.parseInt(args[i]);
-            }
-        }
         // Server
-        int serverSize = 11;
-        //Server[] s = Server.getServers(serverSize);
         String sconfig = Sittings.serverConfig;
         ArrayList<Server> s = Server.getServerFromConfig(sconfig);
 
         // Access
         // Data can't be cloned, since data's location changed during running
         Data[] d = Data.getDatas((Server[]) s.toArray(new Server[s.size()]));
+
         // update
         ArrayList<Event> e = new ArrayList<Event>(40000);
         Update.getUpdate(d, e);
@@ -84,7 +44,6 @@ public class sim {
 
         e.addAll(a);
         e.addAll(crawlerList);
-
         e.addAll(ServerChangeList);
         e.addAll(UpdateServerLatencyList);
 
@@ -94,8 +53,7 @@ public class sim {
         //User[] u = User.getUsers();
         Writer output = new BufferedWriter(new FileWriter(new File(oFile)));
 
-        Cache c = Cache.getCache(t);
-        c.init(cacheSize, e, d, (Server[]) s.toArray(new Server[s.size()]), output, u);
+        c.init(Sittings.cacheSize, e, d, (Server[]) s.toArray(new Server[s.size()]), output, u);
         c.run();
         System.out.println("finish!");
         System.out.println("inCacheFresh :" + Cache.inCacheFreshCount + " " + Cache.inCacheFreshCount / (Cache.inCacheFreshCount + Cache.inCacheStaleCount + Cache.notinCacheCount + 0.0));

@@ -1,3 +1,5 @@
+package mainpackage;
+
 import java.io.*;
 
 public class ReadWriteTextFile {
