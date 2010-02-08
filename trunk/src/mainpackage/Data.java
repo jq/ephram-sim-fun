@@ -26,7 +26,7 @@ public class Data implements Comparable<Data> {
     //src data price
     double priceRandom = Sittings.randomSeed.nextDouble();
     double priceLinear = 1.0;
-    Server src;
+    public Server src;
     int seed = 0;
     Long time;
 //    ArrayList<Server> fresh = new ArrayList<Server>(cacheNum);
