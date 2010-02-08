@@ -1,3 +1,5 @@
+package mainpackage;
+
 import java.util.LinkedList;
 
 
@@ -107,15 +109,21 @@ public class Solution {
 	
 	void apply(Cache c)
 	{
-		for (int i = 0; i< freshData.size(); ++i) 
-		{
-			Data data = freshData.get(i);
-			if(c.inCacheFresh(data)||c.inCacheStale(data))
-				break;
-//                            continue;
-			//c.addToCache(data, false);
-			c.addToCache(data);
-		}
+//		for (int i = 0; i< freshData.size(); ++i)
+//		{
+//			Data data = freshData.get(i);
+//			if(c.inCacheFresh(data)||c.inCacheStale(data))
+//				break;
+////                            continue;
+////			c.addToCache(data, false);
+//			c.addToCache(data);
+//		}
+            for(int i=0;i<freshData.size();++i){
+                c.addToCache(freshData.get(i));
+            }
+            for(int i=0;i<staleData.size();++i){
+                c.addToCache(staleData.get(i));
+            }
 	}
 
 

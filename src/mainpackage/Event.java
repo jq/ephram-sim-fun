@@ -1,3 +1,5 @@
+package mainpackage;
+
 
 
 public class Event implements Comparable{
