@@ -1,8 +1,6 @@
 package mainpackage;
 
-
 import java.util.Random;
-
 
 /**
  * collect all the sittings of input file locations and names here.
@@ -29,5 +27,7 @@ public class Sittings {
     public static int cacheSize = 50;
 
     //random seed
-    public static java.util.Random randomSeed=new Random(1);
+    public static java.util.Random randomSeed = new Random(1);
+    //Solver
+    public static query.SolverSimple solver;
 }

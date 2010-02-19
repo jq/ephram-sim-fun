@@ -18,7 +18,7 @@ public class User {
     int userID;
     // as long as user pay, if user budget run out, all remaining queries do not success
     int successQuery;
-    int failQuery;
+    public int failQuery;
     int totalQuery;
     //初始钱数
     static double budget = 1000;
@@ -108,8 +108,8 @@ public class User {
     //the money you pay(linear or step function)
     public double pay(int responseTime, float datastale) {
 
-        System.out.println("------ResponseTime: " + responseTime + "------ pay:" + getQos_linearPositive(responseTime));
-        System.out.println("------datastale: " + datastale + "------ pay:" + getQod_linearPositive(datastale));
+//        System.out.println("------ResponseTime: " + responseTime + "------ pay:" + getQos_linearPositive(responseTime));
+//        System.out.println("------datastale: " + datastale + "------ pay:" + getQod_linearPositive(datastale));
 
         double spend = pay_linearPositive(responseTime, datastale);
 //    	double spend = pay_stepFunction(responseTime, datastale);
