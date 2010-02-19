@@ -1,6 +1,5 @@
 package mainpackage;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -16,12 +15,12 @@ public class Data implements Comparable<Data> {
     //number of cache server
     static int replicaNum = 4;
     // data object access num & update num
-    private int dataAccessNum = 0;
-    private int dataUpdateNum = 0;
-    static final double alpha = 0.2;
-    int cacheUnappliedUpdate = 0;
+    public int dataAccessNum = 0;
+    public int dataUpdateNum = 0;
+    static double alpha = 0.2;
+    public int cacheUnappliedUpdate = 0;
     //size if data object(unit: KB)
-    private int size;
+    public int size;
     static final int dataObjectSize = 50;
     //src data price
     double priceRandom = Sittings.randomSeed.nextDouble();
@@ -32,11 +31,11 @@ public class Data implements Comparable<Data> {
 //    ArrayList<Server> fresh = new ArrayList<Server>(cacheNum);
 //    ArrayList<Server> stale = new ArrayList<Server>(cacheNum);
     //replicas stored on other servers
-    ArrayList<Server> replicas = new ArrayList<Server>(replicaNum);
-    private int[] unappliedUpdates = new int[replicaNum];
+    public ArrayList<Server> replicas = new ArrayList<Server>(replicaNum);
+    public int[] unappliedUpdates = new int[replicaNum];
     //replicas data price
-    private double[] replicaPriceRandom = new double[replicaNum];
-    private double[] replicaPriceLinear = new double[replicaNum];
+    public double[] replicaPriceRandom = new double[replicaNum];
+    public double[] replicaPriceLinear = new double[replicaNum];
     final static String DataConfig = Sittings.dataConfig;
 
     Data(Server s, int dataSize) {
@@ -86,6 +85,15 @@ public class Data implements Comparable<Data> {
         return sList;
     }
 
+    public double getPrice(int source) {
+        if (source == -1) {
+            return priceLinear;
+        }
+        if (source >= 0) {
+            return replicaPriceLinear[source];
+        }
+        return 0;
+    }
     //把688个数据分布到n个server上
 //    static Data[] getDatas(Server[] s) {
 //        Data[] d = new Data[dataNum];
@@ -103,6 +111,7 @@ public class Data implements Comparable<Data> {
 //        }
 //        return d;
 //    }
+
     static Data[] getDatas(Server[] s) {
         Data[] d = new Data[dataNum];
         int serverSize = s.length;
@@ -121,6 +130,7 @@ public class Data implements Comparable<Data> {
                 //format:  small	0-299	0-10
                 tokens = new StringTokenizer(line);
                 tokens.nextToken();//skip class
+
                 String idRange = tokens.nextToken();
                 String sizeRange = tokens.nextToken();
                 int idMin = Integer.parseInt(idRange.substring(0, idRange.indexOf('-')));

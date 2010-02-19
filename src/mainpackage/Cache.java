@@ -1,6 +1,5 @@
 package mainpackage;
 
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class Cache {
     static final public int THRESHOLD_ACCESS_TIME = 3000;
     public int cachesize;
     double profit;
-    static int cacheAccessTime = 1000;
+    public static int cacheAccessTime = 1000;
     int totalSuccess;
     List<Event> e;
     ArrayList<User> u;
@@ -25,9 +24,9 @@ public class Cache {
 //    LinkedList<Data> stale = new LinkedList<Data>();
     public LinkedList<Data> cacheItems = new LinkedList<Data>();
     Writer o;
-    static int inCacheFreshCount = 0;
-    static int inCacheStaleCount = 0;
-    static int notinCacheCount = 0;
+    public static int inCacheFreshCount = 0;
+    public static int inCacheStaleCount = 0;
+    public static int notinCacheCount = 0;
 
     public static Cache getCache(int t) {
         switch (t) {
@@ -36,6 +35,21 @@ public class Cache {
             default:
 
                 return new Cache();
+        }
+    }
+
+    public void updateCache(Data[] data, int[] source) {
+        for (int i = 0; i < data.length; i++) {
+            if (true) {
+                if (addToCache(data[i])) {
+                    if (source[i] == -1) {
+                        data[i].cacheUnappliedUpdate = 0;
+                    }
+                    if (source[i] >= 0) {
+                        data[i].cacheUnappliedUpdate = data[i].unappliedUpdates[source[i]];
+                    }
+                }
+            }
         }
     }
 
@@ -75,6 +89,9 @@ public class Cache {
         return false;
     }
 
+    public boolean inCache(Data data) {
+        return cacheItems.contains(data);
+    }
 //    public void adjustCache(Data data, boolean isStale) {
 //    	// must be in the cache
 //    	if (isStale) {
@@ -88,6 +105,7 @@ public class Cache {
 //    	}
 //    }
     // a recent access to the data, and data is in cache, we adjust its position in cache
+
     public void adjustCache(Data data) {
         // must be in the cache
         if (!cacheItems.contains(data)) {
@@ -129,21 +147,23 @@ public class Cache {
      * Algorithm3: M=alpha*（1-f（update））+（1-alpha）*f（access）
      */
     // a new data add to cache
-    public void addToCache(Data data) {
+    public boolean addToCache(Data data) {
         //no need to cache
+
         if (data.src.getRecordAccessTime() < THRESHOLD_ACCESS_TIME) {
             System.out.println("data source access time is so short that we neednt cache it!!!!!!!!!");
-            return;
+            return false;
         }
         //remove the data with minimum M
         if (cacheItems.size() == cachesize) {
             Data minData = findMinData();
             if (data.computeM() < minData.computeM()) {
-                return;
+                return false;
             }
             cacheItems.remove(minData);
         }
         cacheItems.addLast(data);
+        return true;
     }
 
     //find the data with minimum M

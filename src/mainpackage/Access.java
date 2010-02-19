@@ -40,44 +40,45 @@ public class Access extends Event {
     	}
     	int time = 0;
     	int frashData = 0;
-    	Solutions s = new Solutions();
-    	for (int i = 0; i<data.length; i++) {
-    		//data access num++
-    		data[i].access();
-    		
-    		Data d = data[i];
-    		int dTime = 0;
-        	if (c.inCacheFresh(d)) {
-        		// no need to add to solution, since it is just one choice
-        		s.insertCacheFresh();
-        		//c.adjustCache(d, true);
-        		System.out.println("inCacheFresh------------"+i+"---"+d);
-        		Cache.inCacheFreshCount++;
-
-        	} else if (c.inCacheStale(d)) {
-        		// just try src of data and cache
-//        	    ArrayList<Solution> ss = new ArrayList<Solution>(2);
-//        	    Solution staleCache = new Solution(0, Cache.cacheAccessTime, d, true);
-//        	    Solution freshServer = new Solution(0, d.src.accessTime, d, false);
-//        	    ss.add(staleCache);
-//        	    ss.add(freshServer);
-//        	    s.insert(ss);
-        		ArrayList<Solution> ss = d.getSolutions();
-        		Solution staleCache = new Solution(0, Cache.cacheAccessTime, d, true,0);
-        		ss.add(staleCache);
-        		s.insert(ss);
-        		
-        	    System.out.println("inCacheStale------------"+i+"---"+d);
-        	    Cache.inCacheStaleCount++;
-        	} else {
-        		
-        		// get it from servers
-        		ArrayList<Solution> ss = d.getSolutions();
-        		s.insert(ss);
-        		System.out.println("notinCache------------"+i+"---"+d);
-        		Cache.notinCacheCount++;
-        	}
-    	}
+    	Solver s = Sittings.solver.getSolver();
+//    	for (int i = 0; i<data.length; i++) {
+//    		//data access num++
+//    		data[i].access();
+//    		
+//    		Data d = data[i];
+//    		int dTime = 0;
+//        	if (c.inCacheFresh(d)) {
+//        		// no need to add to solution, since it is just one choice
+//        		s.insertCacheFresh();
+//        		//c.adjustCache(d, true);
+//        		System.out.println("inCacheFresh------------"+i+"---"+d);
+//        		Cache.inCacheFreshCount++;
+//
+//        	} else if (c.inCacheStale(d)) {
+//        		// just try src of data and cache
+////        	    ArrayList<Solution> ss = new ArrayList<Solution>(2);
+////        	    Solution staleCache = new Solution(0, Cache.cacheAccessTime, d, true);
+////        	    Solution freshServer = new Solution(0, d.src.accessTime, d, false);
+////        	    ss.add(staleCache);
+////        	    ss.add(freshServer);
+////        	    s.insert(ss);
+//        		ArrayList<Solution> ss = d.getSolutions();
+//        		Solution staleCache = new Solution(0, Cache.cacheAccessTime, d, true,0);
+//        		ss.add(staleCache);
+//        		s.insert(ss);
+//        		
+//        	    System.out.println("inCacheStale------------"+i+"---"+d);
+//        	    Cache.inCacheStaleCount++;
+//        	} else {
+//        		
+//        		// get it from servers
+//        		ArrayList<Solution> ss = d.getSolutions();
+//        		s.insert(ss);
+//        		System.out.println("notinCache------------"+i+"---"+d);
+//        		Cache.notinCacheCount++;
+//        	}
+//    	}
+        s.solve(data, c);
     	c.profit += s.pay(u, data.length, c);
     	c.totalSuccess++;
     }

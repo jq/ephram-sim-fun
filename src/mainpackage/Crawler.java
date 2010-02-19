@@ -62,12 +62,12 @@ public class Crawler extends Event
 			if(replicaNumber == -1)
 			{
 				d.cacheUnappliedUpdate = 0;
-				System.out.println("Crawl from src.............................");
+//				System.out.println("Crawl from src.............................");
 			}
 			else//refresh 
 			{
 				d.cacheUnappliedUpdate = d.getUnappliedUpdates()[replicaNumber]<d.cacheUnappliedUpdate? d.getUnappliedUpdates()[replicaNumber]:d.cacheUnappliedUpdate;
-				System.out.println("Crawl from other copy.............................................");
+//				System.out.println("Crawl from other copy.............................................");
 			}		
 		}
 		
