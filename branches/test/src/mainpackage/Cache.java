@@ -40,7 +40,7 @@ public class Cache {
 
     public void updateCache(Data[] data, int[] source) {
         for (int i = 0; i < data.length; i++) {
-            if (true) {
+            if (source[i]!=-2) {
                 if (addToCache(data[i])) {
                     if (source[i] == -1) {
                         data[i].cacheUnappliedUpdate = 0;
