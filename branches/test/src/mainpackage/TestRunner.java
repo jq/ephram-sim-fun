@@ -1,6 +1,5 @@
 package mainpackage;
 
-
 import java.util.*;
 import java.io.*;
 
@@ -9,6 +8,16 @@ import java.io.*;
  * @author hillboy
  */
 public class TestRunner {
+
+    public static void init() {
+        Cache.inCacheFreshCount = 0;
+        Cache.inCacheStaleCount = 0;
+        Cache.notinCacheCount = 0;
+        Statistics.QoDrejection = 0;
+        Statistics.QoSrejection = 0;
+        Sittings.randomSeed=new Random(1);
+        Crawler.totalCrawlTime = 0;
+    }
 
     public static void test(Cache c) throws Exception {
         String asFile = Sittings.asFile;
@@ -75,7 +84,9 @@ public class TestRunner {
         System.out.println("QoS rejection:\t" + Statistics.QoSrejection);
         System.out.println("QoD rejection:\t" + Statistics.QoDrejection);
         System.out.println("profit:\t" + Double.toString(c.profit));
+        System.out.println(Crawler.totalCrawlTime);
     }
+
     public static void testCache(Cache c) throws Exception {
         String asFile = Sittings.asFile;
         String uFile = Sittings.userProfile;
