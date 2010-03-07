@@ -12,11 +12,15 @@ public class Main {
         double a;
 
 //            System.out.println("alpha=\t" + a);
-
-
-        Cache c = new cache.Cache_FIFO();
+//        for (Crawler.beta = 0.1; Crawler.beta <= 1; Crawler.beta += 0.1) {
+        for(int i=0;i<10;i++){
+            
+            Cache c = new cache.Cache1();
 //            Data.alpha = 0.9;
-        TestRunner.test(c);
+
+            TestRunner.init();
+            TestRunner.test(c);
+        }
 
     }
 }
