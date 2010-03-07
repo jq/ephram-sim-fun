@@ -15,8 +15,10 @@ public class TestRunner {
         Cache.notinCacheCount = 0;
         Statistics.QoDrejection = 0;
         Statistics.QoSrejection = 0;
-        Sittings.randomSeed=new Random(1);
+        Sittings.randomSeed = new Random(1);
         Crawler.totalCrawlTime = 0;
+        Update.totalUpdateNum = 0;
+        Access.totalAccessNum = 0;
     }
 
     public static void test(Cache c) throws Exception {
