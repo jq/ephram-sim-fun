@@ -18,7 +18,7 @@ public class Cache {
     List<Event> e;
     ArrayList<User> u;
     Data[] d;
-    Server[] s;
+    public Server[] s;
     // cached data
 //    LinkedList<Data> fresh = new LinkedList<Data>();
 //    LinkedList<Data> stale = new LinkedList<Data>();
