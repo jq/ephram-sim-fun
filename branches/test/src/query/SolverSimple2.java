@@ -57,7 +57,7 @@ public class SolverSimple2 extends Solver {
     }
     public ArrayList<SolutionSimple2> solutions;
 
-    public void solve(Data[] data, Cache c) {
+    public void solve(Data[] data, Cache c){
         solutions = new ArrayList<SolutionSimple2>(1 + c.s.length);
         int[] allServerAccessTimes = new int[1 + c.s.length];
         allServerAccessTimes[0] = Cache.cacheAccessTime;
@@ -69,31 +69,49 @@ public class SolverSimple2 extends Solver {
             solution.data = data;
             for (int i = 0; i < data.length; i++) {
                 data[i].access();
-                if (c.inCache(data[i])) {
+                //if (c.inCache(data[i])) {
                     // get from cache
-                    solution.source[i] = -2;
-                } else {
+                //    solution.source[i] = -2;
+                //} else {
                     // get from src
                     //Cache.notinCacheCount++;
                     //solution.source[i] = -1;
                     //get from src or replicas
-                    if (data[i].src.getRecordAccessTime() <= allServerAccessTimes[j]) {
+                    solution.source[i]=-3;
+                    if (data[i].src.getAccessTime() <= allServerAccessTimes[j]) {
                         solution.source[i] = -1;
                     } else {
+                        if(c.inCache(data[i])&&Cache.cacheAccessTime<=allServerAccessTimes[j]){
+                            solution.source[i]=-2;
+                        }
+
+
                         int getFromReplicasNum = 0;
                         for (int k = 1; k < 4; k++) {
                             if (data[i].replicas.get(k).getRecordAccessTime() <= allServerAccessTimes[j] && data[i].unappliedUpdates[k] < data[i].unappliedUpdates[getFromReplicasNum]) {
                                 getFromReplicasNum = k;
                             }
                         }
-                        if (getFromReplicasNum == 0 && data[i].unappliedUpdates[getFromReplicasNum] > allServerAccessTimes[j]) {
-                            solution.source[i] = -1;
-                        } else {
-                            solution.source[i] = getFromReplicasNum;
+                        if(solution.source[i]==-2){
+                            if(data[i].replicas.get(getFromReplicasNum).getAccessTime()<=allServerAccessTimes[j]&&data[i].cacheUnappliedUpdate>data[i].unappliedUpdates[getFromReplicasNum])
+                                solution.source[i]=getFromReplicasNum;
+                        }else if(solution.source[i]==-3){
+                            if(data[i].replicas.get(getFromReplicasNum).getAccessTime() <= allServerAccessTimes[j])
+                                solution.source[i]=getFromReplicasNum;
+                            else
+                                solution.source[i]=-1;
+                        }else{
+                            System.out.println("fuck!");
                         }
+
+                       // if (getFromReplicasNum == 0 && data[i].replicas.get(getFromReplicasNum).getAccessTime() > allServerAccessTimes[j]) {
+                       //     solution.source[i] = -1;
+                       // } else {
+                       //     solution.source[i] = getFromReplicasNum;
+                       // }
                     }
                 }
-            }
+           // }
             solution.getFreshAndTime();
             solutions.add(solution);
         }
