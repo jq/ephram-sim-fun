@@ -17,6 +17,7 @@ public class SolverNlogN extends SolverSimple2 {
         return new SolverNlogN();
     }
     public SolutionNlogN solution;
+    public SolutionSimple2 simpleSolution;
 
     public double pay(User u, int datalen, Cache c) {
         int[] allServerAccessTimes = new int[1 + c.s.length];
@@ -43,30 +44,38 @@ public class SolverNlogN extends SolverSimple2 {
         }
         if (maxnum < 0) {
             u.failQuery++;
+            simpleSolution.getFreshAndTime();
+            if (simpleSolution.isValid(u, datalen)) {
+                System.out.print("oops");
+            }
             return 0;
         }
         solution.init();
-        int[] source=new int[solution.dataPlace.length];
-        Data[] data=new Data[solution.dataPlace.length];
         solution.pushToTime(allServerAccessTimes[maxnum]);
-        for ( i = 0; i < solution.dataPlace.length; i++) {
-            data[i]=solution.all.get(solution.dataPlace[i]).data;
-            source[i]=solution.all.get(solution.dataPlace[i]).src;
-            if(source[i]!=-2){
+        for (i = 0; i < solution.dataPlace.length; i++) {
+            simpleSolution.source[i] = solution.all.get(solution.dataPlace[i]).src;
+            if (simpleSolution.source[i] != -2) {
                 Cache.notinCacheCount++;
             }
         }
-        System.out.println(solution.tryPay(u, datalen)-max);
-        solution.pay(u, datalen);
-        c.updateCache(data, source);
-        return max;
+//        solution.pay(u, datalen);
+        simpleSolution.getFreshAndTime();
+        c.updateCache(simpleSolution.data, simpleSolution.source);
+        return simpleSolution.pay(u, datalen);
     }
 
     public void solve(Data[] data, Cache c) {
         solution = new SolutionNlogN(data.length);
+        simpleSolution = new SolutionSimple2(data.length);
+        simpleSolution.data = data;
         int i, j;
         for (i = 0; i < data.length; i++) {
+            data[i].access();
+            simpleSolution.source[i] = -1;
             for (j = -2; j < 4; j++) {
+                if (j == -2 && !c.inCache(data[i])) {
+                    continue;
+                }
                 DATAandSOURCE_pair temp = new DATAandSOURCE_pair();
                 temp.data = data[i];
                 temp.num = i;
