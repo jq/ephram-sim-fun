@@ -25,9 +25,10 @@ public class Sittings {
     public static String queryText = outputFolder + "query.txt";
     //run time sittings
     public static int cacheSize = 50;
-
     //random seed
     public static java.util.Random randomSeed = new Random(1);
     //Solver
-    public static query.SolverSimple solver;
+    public static query.SolverNlogN solver;
+//     public static Solver solver;
+//    public static query.SolverSimple2 solver;
 }
