@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package query;
 import mainpackage.*;
 
 import java.util.*;
-/**
- *
- * @author LinChen
- */
+
 public class SolutionSimple2 extends Solution {
 
     public Data[] data;

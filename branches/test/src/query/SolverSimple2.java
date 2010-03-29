@@ -3,10 +3,7 @@ package query;
 import mainpackage.*;
 import java.util.*;
 
-/**
- *
- * @author LinChen
- */
+
 public class SolverSimple2 extends Solver {
 
     public static Solver getSolver() {
@@ -65,7 +62,7 @@ public class SolverSimple2 extends Solver {
         int[] allServerAccessTimes = new int[1 + c.s.length];
         allServerAccessTimes[0] = Cache.cacheAccessTime;
         for (int i = 1; i < 1 + c.s.length; i++) {
-            allServerAccessTimes[i] = c.s[i - 1].getAccessTime();
+            allServerAccessTimes[i] = c.s[i - 1].getRecordAccessTime();
         }
         for (int j = 0; j < 1 + c.s.length; j++) {
             SolutionSimple2 solution = new SolutionSimple2(data.length);
@@ -80,12 +77,12 @@ public class SolverSimple2 extends Solver {
                     //Cache.notinCacheCount++;
                     //solution.source[i] = -1;
                     //get from src or replicas
-                    if (data[i].src.getAccessTime() <= allServerAccessTimes[j]) {
+                    if (data[i].src.getRecordAccessTime() <= allServerAccessTimes[j]) {
                         solution.source[i] = -1;
                     } else {
                         int getFromReplicasNum = 0;
                         for (int k = 1; k < 4; k++) {
-                            if (data[i].replicas.get(k).getAccessTime() <= allServerAccessTimes[j] && data[i].unappliedUpdates[k] < data[i].unappliedUpdates[getFromReplicasNum]) {
+                            if (data[i].replicas.get(k).getRecordAccessTime() <= allServerAccessTimes[j] && data[i].unappliedUpdates[k] < data[i].unappliedUpdates[getFromReplicasNum]) {
                                 getFromReplicasNum = k;
                             }
                         }

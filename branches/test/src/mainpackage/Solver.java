@@ -80,6 +80,7 @@ public class Solver {
         double max = -10;
         Solution s = null;
         ListIterator<Solution> itr = list.listIterator();
+        System.out.println(list.size());
         while (itr.hasNext()) {
             Solution s1 = itr.next();
             if (!s1.isValid(u, datalen)) {
@@ -117,7 +118,7 @@ public class Solver {
                 // no need to add to solution, since it is just one choice
                 s.insertCacheFresh();
                 //c.adjustCache(d, true);
-                System.out.println("inCacheFresh------------" + i + "---" + d);
+//                System.out.println("inCacheFresh------------" + i + "---" + d);
                 Cache.inCacheFreshCount++;
 
             } else if (c.inCacheStale(d)) {
@@ -133,14 +134,14 @@ public class Solver {
                 ss.add(staleCache);
                 s.insert(ss);
 
-                System.out.println("inCacheStale------------" + i + "---" + d);
+//                System.out.println("inCacheStale------------" + i + "---" + d);
                 Cache.inCacheStaleCount++;
             } else {
 
                 // get it from servers
                 ArrayList<Solution> ss = d.getSolutions();
                 s.insert(ss);
-                System.out.println("notinCache------------" + i + "---" + d);
+//                System.out.println("notinCache------------" + i + "---" + d);
                 Cache.notinCacheCount++;
             }
         }
