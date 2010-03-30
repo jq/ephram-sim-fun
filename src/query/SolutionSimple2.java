@@ -1,4 +1,5 @@
 package query;
+
 import mainpackage.*;
 
 import java.util.*;
@@ -13,7 +14,8 @@ public class SolutionSimple2 extends Solution {
     }
 
     public void getFreshAndTime() {
-
+        time = 0;
+        fresh = 0;
         for (int i = 0; i < data.length; i++) {
             //update time
 
@@ -45,6 +47,7 @@ public class SolutionSimple2 extends Solution {
         }
 
     }
+
     public boolean isValid2(User u, float datalen) {
         float stale = (datalen - fresh) / datalen;
         boolean cool = true;

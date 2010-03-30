@@ -19,6 +19,7 @@ public class TestRunner {
         Crawler.totalCrawlTime = 0;
         Update.totalUpdateNum = 0;
         Access.totalAccessNum = 0;
+        Statistics.SolverCostTime = 0;
     }
 
     public static void test(Cache c) throws Exception {
@@ -83,10 +84,11 @@ public class TestRunner {
 //        System.out.println("totalQuery:\t" + totalQuery);
         System.out.println("successQuery:\t" + successQuery);
 //        System.out.println("SuccessRate:\t" + successQuery / (double) totalQuery);
-        System.out.println("QoS rejection:\t" + Statistics.QoSrejection);
-        System.out.println("QoD rejection:\t" + Statistics.QoDrejection);
+        System.out.println("QoSrejection:\t" + Statistics.QoSrejection);
+        System.out.println("QoDrejection:\t" + Statistics.QoDrejection);
         System.out.println("profit:\t" + Double.toString(c.profit));
-        System.out.println(Crawler.totalCrawlTime);
+        System.out.println("totalCrawTime:\t" + Crawler.totalCrawlTime);
+        System.out.println("totalSolverCostTime:\t" + Statistics.SolverCostTime);
     }
 
     public static void testCache(Cache c) throws Exception {
