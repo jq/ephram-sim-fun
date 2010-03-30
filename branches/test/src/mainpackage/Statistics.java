@@ -7,4 +7,5 @@ package mainpackage;
 public class Statistics {
     public static int QoSrejection;
     public static int QoDrejection;
+    public static long SolverCostTime;
 }

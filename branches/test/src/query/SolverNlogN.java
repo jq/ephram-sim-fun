@@ -54,10 +54,14 @@ public class SolverNlogN extends SolverSimple2 {
         solution.pushToTime(allServerAccessTimes[maxnum]);
         for (i = 0; i < solution.dataPlace.length; i++) {
             simpleSolution.source[i] = solution.all.get(solution.dataPlace[i]).src;
+//            System.out.print(simpleSolution.source[i] + ",");
             if (simpleSolution.source[i] != -2) {
                 Cache.notinCacheCount++;
             }
         }
+//        System.out.println(max);
+//        i=0;
+//        System.out.println((10/i));
 //        solution.pay(u, datalen);
         simpleSolution.getFreshAndTime();
         c.updateCache(simpleSolution.data, simpleSolution.source);

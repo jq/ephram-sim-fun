@@ -12,35 +12,35 @@ import java.util.List;
 import webdb.Util;
 
 public class Access extends Event {
-	static int accessNum = 100;
-	//num of data access
-	static int totalAccessNum = 0;
+
+    static int accessNum = 100;
+    //num of data access
+    static int totalAccessNum = 0;
     Data[] data;
     User u;
     int queryID;
-
     static String pathPostfix = ".as";
-	//static String path = "../../src/update";
-	static String origPath = "../access/";
+    //static String path = "../../src/update";
+    static String origPath = "../access/";
 
-    Access (int q, Long time, Data[] d_) {
-    	queryID = q;
-    	timestamp = time;
-    	data = d_;
+    Access(int q, Long time, Data[] d_) {
+        queryID = q;
+        timestamp = time;
+        data = d_;
     }
 
     public void run(Cache c) {
-    	//change total data access num
-    	totalAccessNum += data.length;
-    	
-		// try the combination
-		// if you get two data from one server, choose the longer time
-    	if (!u.hasMoney()) {
-    		return;
-    	}
-    	int time = 0;
-    	int frashData = 0;
-    	Solver s = Sittings.solver.getSolver();
+        //change total data access num
+        totalAccessNum += data.length;
+
+        // try the combination
+        // if you get two data from one server, choose the longer time
+        if (!u.hasMoney()) {
+            return;
+        }
+        int time = 0;
+        int frashData = 0;
+        Solver s = Sittings.solver.getSolver();
 //    	for (int i = 0; i<data.length; i++) {
 //    		//data access num++
 //    		data[i].access();
@@ -78,9 +78,11 @@ public class Access extends Event {
 //        		Cache.notinCacheCount++;
 //        	}
 //    	}
+        Statistics.SolverCostTime -= System.currentTimeMillis();
         s.solve(data, c);
-    	c.profit += s.pay(u, data.length, c);
-    	c.totalSuccess++;
+        c.profit += s.pay(u, data.length, c);
+        c.totalSuccess++;
+        Statistics.SolverCostTime += System.currentTimeMillis();
     }
 
     /*
@@ -88,52 +90,53 @@ public class Access extends Event {
      * @output: one access object
      */
     static void getAccess(Data[] d, List<Access> a, String filename) {
-    	try {
-	        java.io.BufferedReader reader = new  java.io.BufferedReader (
-	        new java.io.InputStreamReader (new java.io.FileInputStream (filename)));
+        try {
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(new java.io.FileInputStream(filename)));
 
-	        String line = reader.readLine ();
-	        while (line != null) {
-                java.util.StringTokenizer st = new java.util.StringTokenizer (line, "|");
+            String line = reader.readLine();
+            while (line != null) {
+                java.util.StringTokenizer st = new java.util.StringTokenizer(line, "|");
                 if (st.countTokens() == 3) {
-	                int qid = Integer.parseInt(st.nextToken ());
-	                String dStr = st.nextToken();
-	                java.util.StringTokenizer dt = new java.util.StringTokenizer (dStr, ",");
-	                int dataSize = dt.countTokens();
-	                Data[] data = new Data[dataSize];
-	                for (int i = 0; i < dataSize; ++i) {
-			            int dID = Integer.parseInt(dt.nextToken ());
-			            data[i] = d[dID];
-	                }
-	                Date t = Util.toDate (st.nextToken ());
-		            if (t != null) {
+                    int qid = Integer.parseInt(st.nextToken());
+                    String dStr = st.nextToken();
+                    java.util.StringTokenizer dt = new java.util.StringTokenizer(dStr, ",");
+                    int dataSize = dt.countTokens();
+                    Data[] data = new Data[dataSize];
+                    for (int i = 0; i < dataSize; ++i) {
+                        int dID = Integer.parseInt(dt.nextToken());
+                        data[i] = d[dID];
+                    }
+                    Date t = Util.toDate(st.nextToken());
+                    if (t != null) {
 
-				    	Access access = new Access(qid, t.getTime(), data);
-				    	a.add(access);
-		            }
+                        Access access = new Access(qid, t.getTime(), data);
+                        a.add(access);
+                    }
                 }
                 line = reader.readLine();
-	        }
-    	}   catch (java.io.IOException ioe) {
-            ioe.printStackTrace ();
-		}
+            }
+        } catch (java.io.IOException ioe) {
+            ioe.printStackTrace();
+        }
 
     }
 
     static void saveAccessToShorterFormat() throws IOException {
-		java.io.File start = new java.io.File (origPath);
-        String list[]=start.list();
-        int total = (list == null)?0:list.length;
-        assert(total == Data.dataNum);
+        java.io.File start = new java.io.File(origPath);
+        String list[] = start.list();
+        int total = (list == null) ? 0 : list.length;
+        assert (total == Data.dataNum);
 
         for (int i = 0; i < total; i++) {
-            java.io.File one = new java.io.File (origPath, list[i]);
+            java.io.File one = new java.io.File(origPath, list[i]);
             String fullpath = origPath;
-            if (!fullpath.endsWith (java.io.File.separator))
+            if (!fullpath.endsWith(java.io.File.separator)) {
                 fullpath += java.io.File.separator;
+            }
             fullpath += list[i];
-            if (!one.isDirectory ()) {
-            	String outPath = fullpath + pathPostfix;
+            if (!one.isDirectory()) {
+                String outPath = fullpath + pathPostfix;
                 Writer output = new BufferedWriter(new FileWriter(new File(outPath)));
                 saveAccess(fullpath, output);
                 output.close();
@@ -145,37 +148,37 @@ public class Access extends Event {
      * @input access file, e.g.:query20k-data688-10days-uniform.txt
      * sample:  userID|queryID|dataID|arrTime
      * 			0|18877|10|21 Oct 2007 03:10
-	 * 			0|18877|31|21 Oct 2007 03:10
-	 *			0|18877|35|21 Oct 2007 03:10
-	 *			0|18877|60|21 Oct 2007 03:10
-	 *			0|18877|70|21 Oct 2007 03:10
-	 *
-	 * @output: queryID|data1,data2,...,datan|arrTime
+     * 			0|18877|31|21 Oct 2007 03:10
+     *			0|18877|35|21 Oct 2007 03:10
+     *			0|18877|60|21 Oct 2007 03:10
+     *			0|18877|70|21 Oct 2007 03:10
+     *
+     * @output: queryID|data1,data2,...,datan|arrTime
      */
-    private static void saveAccess (String file, Writer output)    {
-		try {
-            java.io.BufferedReader reader = new  java.io.BufferedReader (new java.io.InputStreamReader (new java.io.FileInputStream (file)));
+    private static void saveAccess(String file, Writer output) {
+        try {
+            java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(file)));
 
-            String line = reader.readLine ();
+            String line = reader.readLine();
             int beforeQid = -1;
             StringBuilder b = new StringBuilder(102400);
 
             //process first line separately
-            java.util.StringTokenizer st = new java.util.StringTokenizer (line, "|");
+            java.util.StringTokenizer st = new java.util.StringTokenizer(line, "|");
             if (st.countTokens() < 4) {
-            	int i = 0;
-            	i++;
+                int i = 0;
+                i++;
             }
 
             //pass userID
-        	st.nextToken ();
+            st.nextToken();
 
-        	int currentQid = Util.toInteger(st.nextToken (), 0);
+            int currentQid = Util.toInteger(st.nextToken(), 0);
             if (beforeQid == -1) {
-            	beforeQid = currentQid;
+                beforeQid = currentQid;
             }
-        	b.append(String.valueOf(currentQid));
-        	b.append('|');
+            b.append(String.valueOf(currentQid));
+            b.append('|');
 
             //dataID
             String data = st.nextToken();
@@ -185,63 +188,63 @@ public class Access extends Event {
             String time = st.nextToken();
 
             //start processing 2nd line to the end;
-            line = reader.readLine ();
+            line = reader.readLine();
             while (line != null) {
-                st = new java.util.StringTokenizer (line, "|");
+                st = new java.util.StringTokenizer(line, "|");
                 if (st.countTokens() < 4) {
-                	line = reader.readLine ();
-                	continue;
+                    line = reader.readLine();
+                    continue;
                 }
 
                 //pass userID
-                st.nextToken ();
+                st.nextToken();
 
-                currentQid = Util.toInteger(st.nextToken (), 0);
+                currentQid = Util.toInteger(st.nextToken(), 0);
                 data = st.nextToken();
 
                 //same query
-                if (beforeQid == currentQid){
-                	b.append(',');
-                	b.append(String.valueOf(data));
-			    } else { //next query starts
-			    	//finish writing previous one
-		    		b.append('|');
-		    		b.append(time);
-		    		b.append('\n');
-			    	beforeQid = currentQid;
-			    	//save time for next query, start writing next query
-			    	time = st.nextToken();
-			    	b.append(currentQid);
-			    	b.append('|');
-			    	b.append(String.valueOf(data));
-				}
+                if (beforeQid == currentQid) {
+                    b.append(',');
+                    b.append(String.valueOf(data));
+                } else { //next query starts
+                    //finish writing previous one
+                    b.append('|');
+                    b.append(time);
+                    b.append('\n');
+                    beforeQid = currentQid;
+                    //save time for next query, start writing next query
+                    time = st.nextToken();
+                    b.append(currentQid);
+                    b.append('|');
+                    b.append(String.valueOf(data));
+                }
                 //output.write(b.toString());
-                line = reader.readLine ();
+                line = reader.readLine();
             }
             b.append('|');
-    		b.append(time);
-    		b.append('\n');
+            b.append(time);
+            b.append('\n');
 
             if (b.length() != 0) {
-            	b.append('\n');
-            	//String s = b.toString();
-            	char[] c = new char[(int)(b.length()* 1.2)];
-            	b.getChars(0, b.length(), c, 0);
+                b.append('\n');
+                //String s = b.toString();
+                char[] c = new char[(int) (b.length() * 1.2)];
+                b.getChars(0, b.length(), c, 0);
                 output.write(c);
             }
-			reader.close();
-		}        catch (java.io.IOException ioe) {
-            ioe.printStackTrace ();
-		}
+            reader.close();
+        } catch (java.io.IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     public static Access[] getAccess() {
-    	Access[] a = new Access[accessNum];
-    	return a;
+        Access[] a = new Access[accessNum];
+        return a;
     }
     // generate access files
-	public static void main(String[] args) throws IOException{
-		saveAccessToShorterFormat();
-	}
 
+    public static void main(String[] args) throws IOException {
+        saveAccessToShorterFormat();
+    }
 }
