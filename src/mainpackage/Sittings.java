@@ -29,6 +29,8 @@ public class Sittings {
     public static java.util.Random randomSeed = new Random(1);
     //Solver
 //    public static query.SolverNlogN solver;
-     public static query.SolverExhaustive solver;
-//    public static query.SolverSimple2 solver;
+//     public static query.SolverExhaustive solver;
+    public static query.SolverSimple2 solver;
+    //solution type
+    public static query.SolutionClassed solution;
 }

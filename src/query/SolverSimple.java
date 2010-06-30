@@ -25,10 +25,10 @@ public class SolverSimple extends Solver {
 //        System.out.println(" DataPrice~~~~~~~~~~~" + solution.getDataPrice());
         return max;
     }
-    public SolutionSimple solution;
+    public SolutionSimple2 solution;
 
     public void solve(Data[] data, Cache c) {
-        solution = new SolutionSimple(data.length);
+        solution = Sittings.solution.getSolution(data.length);
         solution.data = data;
         for (int i = 0; i < data.length; i++) {
             data[i].access();

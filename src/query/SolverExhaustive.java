@@ -71,7 +71,7 @@ public class SolverExhaustive extends Solver {
     }
 
     public void solve(Data[] data, Cache c) {
-        simpleSolution = new SolutionSimple2(data.length);
+        simpleSolution = Sittings.solution.getSolution(data.length);
         simpleSolution.data = data;
         int i, j;
         for (i = 0; i < data.length; i++) {

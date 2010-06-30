@@ -1,6 +1,5 @@
 package mainpackage;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,6 +28,8 @@ public class Server {
     private double recordBandwidth;
     //varying bandwidth
     private double bandwidths[];
+    //id among servers
+    public int id;
 
     Server(int time, double bandwidth_) {
         accessTime = time;
@@ -155,6 +156,10 @@ public class Server {
         }
         if (s.size() != idNum) {
             throw new RuntimeException();
+        }
+        int i;
+        for (i = 0; i < s.size(); i++) {
+            (s.get(i)).id = i;
         }
         return s;
     }

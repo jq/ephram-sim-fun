@@ -65,7 +65,7 @@ public class SolverSimple2 extends Solver {
         }
         Arrays.sort(allServerAccessTimes);
         for (int j = 0; j < 1 + c.s.length; j++) {
-            SolutionSimple2 solution = new SolutionSimple2(data.length);
+            SolutionSimple2 solution = Sittings.solution.getSolution(data.length);
             solution.data = data;
             for (int i = 0; i < data.length; i++) {
                 data[i].access();
