@@ -20,11 +20,28 @@ public class SolverClassedGreedy extends Solver {
     public double pay(User u, int datalen, Cache c) {
 
 //		double max = 0;
+        int bound;
+        int i, bestI = -1;
+        double max = 0, now, k, bestK=0;
+        for (k = 1; k <= 1; k += 1) {
+            for (i = 0; i < c.s.length; i++) {
+                tryBound(solution.data, c, c.s[i].getRecordAccessTime() * k);
+                solution.getFreshAndTime();
+                now = solution.tryPay(u, datalen);
+                if (bestI < 0 || max < now) {
+                    max = now;
+                    bestI = i;
+                    bestK = k;
+                }
+            }
+        }
+        tryBound(solution.data, c, c.s[bestI].getRecordAccessTime() * bestK);
+        solution.getFreshAndTime();
         if (!solution.isValid(u, datalen)) {
             u.failQuery++;
             return 0;
         }
-        double max = solution.pay(u, datalen);
+        max = solution.pay(u, datalen);
         c.updateCache(solution.data, solution.source);
 //        System.out.println(" DataPrice~~~~~~~~~~~" + solution.getDataPrice());
         return max;
@@ -67,10 +84,10 @@ public class SolverClassedGreedy extends Solver {
                     sumTime[0] += Cache.cacheAccessTime;
                 }
                 if (bestJ == -1) {
-                    sumTime[data[i].src.id+1] += data[i].src.getRecordAccessTime();
+                    sumTime[data[i].src.id + 1] += data[i].src.getRecordAccessTime();
                 }
-                if(bestJ>=0){
-                    sumTime[data[i].replicas.get(bestJ).id+1]+=data[i].replicas.get(bestJ).getRecordAccessTime();
+                if (bestJ >= 0) {
+                    sumTime[data[i].replicas.get(bestJ).id + 1] += data[i].replicas.get(bestJ).getRecordAccessTime();
                 }
             }
 
@@ -91,8 +108,6 @@ public class SolverClassedGreedy extends Solver {
 //                solution.source[i] = -1;
             }
         }
-        int bound;
-        todo
-        solution.getFreshAndTime();
+
     }
 }
