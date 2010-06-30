@@ -9,6 +9,10 @@ public class SolutionSimple2 extends Solution {
     public Data[] data;
     public int[] source;
 
+    public static SolutionSimple2 getSolution(int len) {
+        return new SolutionSimple2(len);
+    }
+
     public SolutionSimple2(int len) {
         source = new int[len];
     }
