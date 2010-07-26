@@ -30,7 +30,7 @@ public class Sittings {
     //Solver
 //    public static query.SolverNlogN solver;
 //     public static query.SolverExhaustive solver;
-    public static query.SolverClassedGreedy solver;
+    public static query.SolverClassedMinCostMaxFlow solver;
     //solution type
     public static query.SolutionClassed solution;
 }
